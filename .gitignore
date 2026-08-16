@@ -1,0 +1,23 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Variáveis privadas
+.env
+.env.*
+
+# Python — caso reste algum arquivo antigo
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Node — caso alguma ferramenta futura utilize
+node_modules/

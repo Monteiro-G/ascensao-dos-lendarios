@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>Ascensão dos Lendários - Álbum Digital</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <!-- Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Deck de Figurinhas Lateral (ETAPA 2) -->
+    <aside id="deck-panel" class="deck-panel" aria-label="Deck de Figurinhas">
+        <button id="deck-toggle" class="deck-toggle-btn" aria-label="Abrir ou fechar o deck de figurinhas">
+            <span class="deck-toggle-icon">🃏</span>
+            <span class="deck-toggle-label">DECK</span>
+            <span id="deck-badge-count" class="deck-badge-count">36</span>
+        </button>
+        <div class="deck-content">
+            <header class="deck-header">
+                <div class="deck-header-title">
+                    <h2>DECK</h2>
+                    <span class="deck-subtitle">Ascensão dos Lendários</span>
+                </div>
+                <div class="deck-header-actions">
+                    <div id="deck-count-text" class="deck-count-text">36 disponíveis</div>
+                    <button id="btn-return-all" class="deck-return-btn" title="Devolver todas as figurinhas coladas ao Deck">
+                        <span class="return-icon">↩</span> DEVOLVER TODAS
+                    </button>
+                </div>
+            </header>
+            <div id="deck-grid" class="deck-grid">
+                <!-- Miniaturas das figurinhas renderizadas via JavaScript -->
+            </div>
+        </div>
+    </aside>
+
+    <!-- Sound Control -->
+    <button id="sound-toggle" class="sound-btn" aria-label="Alternar som">
+        <svg class="sound-icon-on" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor"
+                d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+        </svg>
+        <svg class="sound-icon-off hidden" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor"
+                d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.5C15.58,18 14.83,18.4 14,18.71V20.77C15.38,20.44 16.63,19.78 17.7,18.9L20.73,21.93L22,20.66L4.27,3M14,3.23V5.29C14.73,5.5 15.43,5.83 16.07,6.26L14.59,7.74C14.41,7.65 14.21,7.58 14,7.54V9.54L19,14.54C19,13.7 19,12.85 19,12C19,7.72 16,4.14 14,3.23M16.5,12C16.5,11.2 16.1,10.5 15.5,10.05L14,11.55V12.45L15.46,13.9C15.48,13.28 16.5,12.62 16.5,12Z" />
+        </svg>
+    </button>
+
+    <!-- Navigation Arrows -->
+    <button id="btn-prev" class="nav-btn nav-btn-left" aria-label="Página Anterior">
+        <svg viewBox="0 0 24 24" width="36" height="36">
+            <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+        </svg>
+    </button>
+    <button id="btn-next" class="nav-btn nav-btn-right" aria-label="Próxima Página">
+        <svg viewBox="0 0 24 24" width="36" height="36">
+            <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+        </svg>
+    </button>
+
+    <!-- Album Container -->
+    <div class="album-viewport" id="album-viewport">
+        <div class="flip-book" id="book">
+            <!-- PAGINA 0: CAPA -->
+            <div class="page page-cover anime-cover" data-density="hard">
+                <div class="page-content cover-content anime-style">
+                    <div class="energy-bg" aria-hidden="true"></div>
+                    <div class="cover-stars" aria-hidden="true"></div>
+                    <div class="cover-vignette" aria-hidden="true"></div>
+
+                    <!-- Arte de fundo da capa: personagens selecionados do álbum -->
+                    <img src="assets/capa-personagens.png" class="cover-background-image"
+                        alt="Personagens de animes reunidos na capa do álbum" draggable="false">
+                    <div class="cover-image-overlay" aria-hidden="true"></div>
+
+                    <div class="cover-header">
+                        <span class="cover-seal">EDIÇÃO DE COLECIONADOR</span>
+                    </div>
+
+                    <div class="title-box">
+                        <h1 class="title-main anime-title" data-text="ASCENSÃO">ASCENSÃO</h1>
+                        <h2 class="title-sub anime-title" data-text="DOS LENDÁRIOS">DOS LENDÁRIOS</h2>
+                        <div class="title-divider" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="cover-art anime-cover-art" aria-label="Símbolos interativos do álbum">
+                        <button class="cover-card card-jujutsu" type="button" aria-label="Jujutsu Kaisen">
+                            <span class="card-symbol">呪</span><strong>Jujutsu</strong><small>#01</small>
+                        </button>
+                        <button class="cover-card card-naruto" type="button" aria-label="Naruto Shippuden">
+                            <span class="card-symbol">忍</span><strong>Naruto</strong><small>#02</small>
+                        </button>
+                        <button class="cover-card card-solo" type="button" aria-label="Solo Leveling">
+                            <span class="card-symbol">影</span><strong>Solo</strong><small>#03</small>
+                        </button>
+                        <button class="cover-card card-demon" type="button" aria-label="Demon Slayer">
+                            <span class="card-symbol">滅</span><strong>Demon</strong><small>#04</small>
+                        </button>
+                        <button class="cover-card card-onepiece" type="button" aria-label="One Piece">
+                            <span class="card-symbol">海</span><strong>One Piece</strong><small>#28</small>
+                        </button>
+                    </div>
+
+                    <div class="cover-footer anime-cover-footer">
+                        <span>ALGUNS LUTAM PARA MUDAR O MUNDO.</span>
+                        <strong>OUTROS TENTAM ENTENDER O PRÓPRIO CORAÇÃO.</strong>
+                        <small>2026 • EDIÇÃO DE COLECIONADOR</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGINA 1: LENDAS ABSOLUTAS - PARTE 1 -->
+            <div class="page page-left theme-lendas">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥇 LENDAS</span>
+                        <h3 class="page-title">Lendas Absolutas - Parte 1</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#01</div>
+                            <div class="slot-name">Jujutsu Kaisen</div>
+                            <div class="slot-role">Combates intensos, expansões de domínio e maldições lendárias.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#02</div>
+                            <div class="slot-name">Naruto Shippuden</div>
+                            <div class="slot-role">Laços de amizade, superação e a busca para se tornar Hokage.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#03</div>
+                            <div class="slot-name">Solo Leveling</div>
+                            <div class="slot-role">O despertar do caçador mais fraco para a soberania absoluta.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 80%"></div>
+                                    </div><span class="stat-num">80</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#04</div>
+                            <div class="slot-name">Demon Slayer</div>
+                            <div class="slot-role">A jornada de Tanjiro para curar sua irmã e combater demônios.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 84%"></div>
+                                    </div><span class="stat-num">84</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 1</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 2: LENDAS ABSOLUTAS - PARTE 2 -->
+            <div class="page page-right theme-lendas">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥇 LENDAS</span>
+                        <h3 class="page-title">Lendas Absolutas - Parte 2</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#05</div>
+                            <div class="slot-name">Death Note</div>
+                            <div class="slot-role">O caderno da morte e a batalha intelectual entre Light e L.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 50%"></div>
+                                    </div><span class="stat-num">50</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#06</div>
+                            <div class="slot-name">Attack on Titan</div>
+                            <div class="slot-role">A desesperada luta da humanidade contra gigantes e muralhas.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#07</div>
+                            <div class="slot-name">Hunter x Hunter</div>
+                            <div class="slot-role">A aventura de Gon e a complexa filosofia de caçadores.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 2</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 3: GUERREIROS SUPREMOS - PARTE 1 -->
+            <div class="page page-left theme-guerreiros">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥈 GUERREIROS</span>
+                        <h3 class="page-title">Guerreiros Supremos - Parte 1</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#08</div>
+                            <div class="slot-name">Chainsaw Man</div>
+                            <div class="slot-role">Denji e o demônio da motosserra em combates viscerais.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 70%"></div>
+                                    </div><span class="stat-num">70</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#09</div>
+                            <div class="slot-name">Hell's Paradise</div>
+                            <div class="slot-role">Prisioneiros em busca do elixir da vida em uma ilha bizarra.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 84%"></div>
+                                    </div><span class="stat-num">84</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#10</div>
+                            <div class="slot-name">Black Clover</div>
+                            <div class="slot-role">Asta desafia a ausência de magia para ser o Rei Mago.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 78%"></div>
+                                    </div><span class="stat-num">78</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 3</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 4: GUERREIROS SUPREMOS - PARTE 2 -->
+            <div class="page page-right theme-guerreiros">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥈 GUERREIROS</span>
+                        <h3 class="page-title">Guerreiros Supremos - Parte 2</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#11</div>
+                            <div class="slot-name">My Hero Academia</div>
+                            <div class="slot-role">Deku e os jovens heróis enfrentando a liga dos vilões.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#12</div>
+                            <div class="slot-name">Kaiju No. 8</div>
+                            <div class="slot-role">Kafka luta por sua promessa ao transformar-se em Kaiju.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 75%"></div>
+                                    </div><span class="stat-num">75</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 87%"></div>
+                                    </div><span class="stat-num">87</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#13</div>
+                            <div class="slot-name">Fire Force</div>
+                            <div class="slot-role">Chamas, mistérios e heróis lutando contra demônios de fogo.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 82%"></div>
+                                    </div><span class="stat-num">82</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 4</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 5: MESTRES DO SISTEMA - PARTE 1 -->
+            <div class="page page-left theme-sistema">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥉 SISTEMA</span>
+                        <h3 class="page-title">Mestres do Sistema - Parte 1</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#14</div>
+                            <div class="slot-name">Bleach TYBW</div>
+                            <div class="slot-role">O clímax da guerra milenar entre Shinigamis e Quincys.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#15</div>
+                            <div class="slot-name">Dr. Stone</div>
+                            <div class="slot-role">A ciência reerguendo a civilização humana petrificada.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 40%"></div>
+                                    </div><span class="stat-num">40</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 100%"></div>
+                                    </div><span class="stat-num">100</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#16</div>
+                            <div class="slot-name">Parasyte</div>
+                            <div class="slot-role">Simbiose e sobrevivência em meio a uma invasão alienígena.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 87%"></div>
+                                    </div><span class="stat-num">87</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 5</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 6: MESTRES DO SISTEMA - PARTE 2 -->
+            <div class="page page-right theme-sistema">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🥉 SISTEMA</span>
+                        <h3 class="page-title">Mestres do Sistema - Parte 2</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#17</div>
+                            <div class="slot-name">Tokyo Ghoul</div>
+                            <div class="slot-role">Kaneki dividido entre a humanidade e a fome de Ghoul.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#18</div>
+                            <div class="slot-name">Shangri-La Frontier</div>
+                            <div class="slot-role">Sunraku explora o maior MMO usando sua perícia em jogos ruins.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 87%"></div>
+                                    </div><span class="stat-num">87</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 78%"></div>
+                                    </div><span class="stat-num">78</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#19</div>
+                            <div class="slot-name">Tensura (Slime)</div>
+                            <div class="slot-role">Reencarnado como Slime, Rimuru constrói seu império de monstros.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 6</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 7: MENTES DIFERENCIADAS & AVENTURA -->
+            <div class="page page-left theme-mentes-aventura">
+                <div class="page-content">
+                    <div class="page-header">
+                        <div style="display: flex; gap: 8px;">
+                            <span class="tech-badge badge-mentes">🎯 MENTES</span>
+                            <span class="tech-badge badge-aventura">⚡ AVENTURA</span>
+                        </div>
+                        <h3 class="page-title">Mentes & Aventuras</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot slot-mentes">
+                            <div class="slot-number">#20</div>
+                            <div class="slot-name">Frieren</div>
+                            <div class="slot-role">A elfa Frieren compreende a efemeridade e valor das conexões.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-mentes">
+                            <div class="slot-number">#21</div>
+                            <div class="slot-name">The Apothecary Diaries</div>
+                            <div class="slot-role">Maomao resolve intrigas da corte imperial usando conhecimentos de
+                                veneno.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 30%"></div>
+                                    </div><span class="stat-num">30</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-aventura">
+                            <div class="slot-number">#22</div>
+                            <div class="slot-name">Fairy Tail</div>
+                            <div class="slot-role">A força dos laços familiares na guilda mais barulhenta de Fiore.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 91%"></div>
+                                    </div><span class="stat-num">91</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 75%"></div>
+                                    </div><span class="stat-num">75</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-aventura">
+                            <div class="slot-number">#23</div>
+                            <div class="slot-name">Nanatsu no Taizai</div>
+                            <div class="slot-role">Os Sete Pecados Capitais combatem para defender o reino de Liones.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 78%"></div>
+                                    </div><span class="stat-num">78</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 87%"></div>
+                                    </div><span class="stat-num">87</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 7</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 8: NOVA ERA & SOMBRIO & LENDA INFINITA -->
+            <div class="page page-right theme-nova-sombrio-lenda">
+                <div class="page-content">
+                    <div class="page-header">
+                        <div style="display: flex; gap: 8px;">
+                            <span class="tech-badge badge-nova">🧪 NOVA ERA</span>
+                            <span class="tech-badge badge-sombrio">👻 SOMBRIO</span>
+                            <span class="tech-badge badge-lenda">🌊 LENDA</span>
+                        </div>
+                        <h3 class="page-title">Novas Eras & Lendas Sem Fim</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot slot-nova">
+                            <div class="slot-number">#24</div>
+                            <div class="slot-name">Dandadan</div>
+                            <div class="slot-role">Fantasmas, alienígenas e romance adolescente no ritmo mais insano.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 80%"></div>
+                                    </div><span class="stat-num">80</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-nova">
+                            <div class="slot-number">#25</div>
+                            <div class="slot-name">Gachiakuta</div>
+                            <div class="slot-role">Rudo utiliza o poder do lixo no abismo para alcançar vingança.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 82%"></div>
+                                    </div><span class="stat-num">82</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 92%"></div>
+                                    </div><span class="stat-num">92</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 86%"></div>
+                                    </div><span class="stat-num">86</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-nova">
+                            <div class="slot-number">#26</div>
+                            <div class="slot-name">Medalist</div>
+                            <div class="slot-role">A comovente busca pela glória nos ringues de patinação artística.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 75%"></div>
+                                    </div><span class="stat-num">75</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot slot-sombrio">
+                            <div class="slot-number">#27</div>
+                            <div class="slot-name">Another</div>
+                            <div class="slot-role">A maldição da sala escolar e a busca pelo aluno fantasma adicional.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 50%"></div>
+                                    </div><span class="stat-num">50</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 85%"></div>
+                                    </div><span class="stat-num">85</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 88%"></div>
+                                    </div><span class="stat-num">88</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 89%"></div>
+                                    </div><span class="stat-num">89</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot slot-ocean">
+                            <div class="slot-number">#28</div>
+                            <div class="slot-name">One Piece</div>
+                            <div class="slot-role">Luffy e seus companheiros de tripulação buscam o tesouro supremo nos
+                                oceanos.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Poder</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Inteligência</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 80%"></div>
+                                    </div><span class="stat-num">80</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Hype</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mundo</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 100%"></div>
+                                    </div><span class="stat-num">100</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 8</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 9: FILMES - GHIBLI -->
+            <div class="page page-left theme-filmes">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🎬 GHIBLI</span>
+                        <h3 class="page-title">Crônicas da Alma - Estúdio Ghibli</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#29</div>
+                            <div class="slot-name">A Viagem de Chihiro</div>
+                            <div class="slot-role">Mágica jornada de uma garota no mundo das divindades antigas.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#30</div>
+                            <div class="slot-name">Ponyo</div>
+                            <div class="slot-role">Amizade e magia sob as ondas entre Sosuke e a princesa peixinho.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 90%"></div>
+                                    </div><span class="stat-num">90</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#31</div>
+                            <div class="slot-name">Prin. Mononoke</div>
+                            <div class="slot-role">Ashitaka e a garota selvagem em meio ao combate homem vs natureza.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#32</div>
+                            <div class="slot-name">O Castelo Animado</div>
+                            <div class="slot-role">O amor improvável entre Sophie envelhecida e o mago Howl.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 94%"></div>
+                                    </div><span class="stat-num">94</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#33</div>
+                            <div class="slot-name">Túm. dos Vagalumes</div>
+                            <div class="slot-role">A devastadora e real sobrevivência de Seita e Setsuko na Segunda
+                                Guerra.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 100%"></div>
+                                    </div><span class="stat-num">100</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 93%"></div>
+                                    </div><span class="stat-num">93</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 100%"></div>
+                                    </div><span class="stat-num">100</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 9</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 10: FILMES - CONEXÃO & EMOÇÃO -->
+            <div class="page page-right theme-filmes">
+                <div class="page-content">
+                    <div class="page-header">
+                        <span class="tech-badge">🎬 EMOÇÃO</span>
+                        <h3 class="page-title">Conexões Além do Espaço & Tempo</h3>
+                    </div>
+                    <div class="stickers-grid">
+                        <div class="sticker-slot">
+                            <div class="slot-number">#34</div>
+                            <div class="slot-name">Your Name</div>
+                            <div class="slot-role">Dois desconhecidos trocam de corpos conectados pelo destino cósmico.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 100%"></div>
+                                    </div><span class="stat-num">100</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot">
+                            <div class="slot-number">#35</div>
+                            <div class="slot-name">A Voz do Silêncio</div>
+                            <div class="slot-role">A dolorosa busca por redenção e empatia de um jovem com uma garota
+                                surda.</div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 99%"></div>
+                                    </div><span class="stat-num">99</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sticker-slot special-slot">
+                            <div class="slot-number">#36</div>
+                            <div class="slot-name">Hotarubi no Mori e</div>
+                            <div class="slot-role">O amor proibido e tocante entre Gin, o espírito, e a humana Hotaru.
+                            </div>
+                            <div class="slot-stats">
+                                <div class="stat-row"><span class="stat-label">Emoção</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 98%"></div>
+                                    </div><span class="stat-num">98</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Impacto</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Beleza</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 96%"></div>
+                                    </div><span class="stat-num">96</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Mensagem</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 97%"></div>
+                                    </div><span class="stat-num">97</span>
+                                </div>
+                                <div class="stat-row"><span class="stat-label">Trilha</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-value" style="width: 95%"></div>
+                                    </div><span class="stat-num">95</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-footer">Pág. 10</div>
+                </div>
+            </div>
+
+            <!-- PAGINA 11: CONTRACAPA -->
+            <div class="page page-cover-back" data-density="hard">
+                <div class="page-content cover-back-content">
+                    <div class="cover-back-header">
+                        <h2>ASCENSÃO DOS LENDÁRIOS</h2>
+                    </div>
+                    <div class="cover-back-body">
+                        <div class="tech-logo-collage">
+                            <span>🥇 LENDAS</span> • <span>🥈 GUERREIROS</span> • <span>🥉 SISTEMA</span> • <span>🎬
+                                FILMES</span>
+                        </div>
+                        <p class="summary-text">
+                            O álbum Ascensão dos Lendários celebra o poder, evolução e significado do multiverso de
+                            animes e as profundas crônicas emocionais do cinema. Um tributo aos mundos que inspiram
+                            gerações de fãs globalmente.
+                        </p>
+                        <div class="barcode-container">
+                            <div class="barcode">
+                                <!-- Simulated barcode lines -->
+                                <div class="bar"></div>
+                                <div class="bar thin"></div>
+                                <div class="bar"></div>
+                                <div class="bar thick"></div>
+                                <div class="bar thin"></div>
+                                <div class="bar"></div>
+                                <div class="bar thick"></div>
+                                <div class="bar"></div>
+                                <div class="bar thin"></div>
+                                <div class="bar thick"></div>
+                            </div>
+                            <span class="barcode-number">9 788575 228494</span>
+                        </div>
+                    </div>
+                    <div class="cover-back-footer">
+                        <span>Julho • Alura Album • 2026</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sticker Viewer Overlay (ETAPA 7) -->
+    <div id="sticker-viewer-overlay" class="sticker-viewer-overlay" aria-hidden="true">
+        <div id="sticker-viewer-container" class="sticker-viewer-container">
+            <div id="sticker-viewer-card" class="sticker-viewer-card">
+                <button id="sticker-viewer-close" class="sticker-viewer-close-btn" aria-label="Fechar visualizador">✕</button>
+                <img id="sticker-viewer-img" src="" alt="" draggable="false">
+                <div id="sticker-viewer-info" class="sticker-viewer-info">
+                    <span id="sticker-viewer-number" class="sticker-viewer-number">#00</span>
+                    <h3 id="sticker-viewer-title" class="sticker-viewer-title">Nome do Anime</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Flip Library -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+    <!-- Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
