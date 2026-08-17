@@ -1027,7 +1027,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Monitora o mousedown/touchstart em cada página para iniciar a intenção de arraste
         document.querySelectorAll(".page").forEach((page, index) => {
             page.addEventListener("mousedown", (e) => {
-                if (isViewerOpen || isAnimatingReturn || isAnimatingPlacement || isDraggingSticker || e.target.closest("button") || e.target.closest("a") || e.target.closest("#deck-panel") || e.target.closest(".deck-card") || e.target.closest("#sticker-viewer-overlay")) return;
+                if (isViewerOpen || isAnimatingReturn || isAnimatingPlacement || isDraggingSticker || e.target.closest("button") || e.target.closest("a") || e.target.closest("#deck-panel") || e.target.closest(".deck-card, .deck-sticker, .sticker-img") || e.target.closest("#sticker-viewer-overlay")) return;
                 isClicking = true;
                 startX = e.clientX;
                 startY = e.clientY;
@@ -1036,7 +1036,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             page.addEventListener("touchstart", (e) => {
-                if (isViewerOpen || isAnimatingReturn || isAnimatingPlacement || isDraggingSticker || e.target.closest("button") || e.target.closest("a") || e.target.closest("#deck-panel") || e.target.closest(".deck-card") || e.target.closest("#sticker-viewer-overlay")) return;
+                if (isViewerOpen || isAnimatingReturn || isAnimatingPlacement || isDraggingSticker || e.target.closest("button") || e.target.closest("a") || e.target.closest("#deck-panel") || e.target.closest(".deck-card, .deck-sticker, .sticker-img") || e.target.closest("#sticker-viewer-overlay")) return;
                 const touch = e.touches[0];
                 isClicking = true;
                 startX = touch.clientX;
@@ -1100,6 +1100,28 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.remove("dragging");
         };
 
+        // Encerra com segurança uma dobra interrompida (cancelamento do SO,
+        // troca de orientação, perda de foco ou mudança de aba).
+        const cancelPageDrag = () => {
+            if (!isClicking && !dragStarted) return;
+            const bookRect = bookElement.getBoundingClientRect();
+            const safeX = Math.max(0, Math.min(startX - bookRect.left, bookRect.width));
+            const safeY = Math.max(0, Math.min(startY - bookRect.top, bookRect.height));
+
+            if (dragStarted) {
+                try {
+                    pageFlip.userStop({ x: safeX, y: safeY }, true);
+                } catch (error) {
+                    console.warn("Não foi possível encerrar o gesto do PageFlip:", error);
+                }
+            }
+
+            isClicking = false;
+            dragStarted = false;
+            activeDragPage = null;
+            document.body.classList.remove("dragging");
+        };
+
         window.addEventListener("mousemove", (e) => {
             handleMove(e.clientX, e.clientY, false);
         });
@@ -1123,6 +1145,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 handleRelease(startX, startY, true);
             }
         });
+
+        window.addEventListener("touchcancel", cancelPageDrag, { passive: true });
+        window.addEventListener("pointercancel", cancelPageDrag, { passive: true });
+        window.addEventListener("blur", cancelPageDrag);
+        window.addEventListener("resize", cancelPageDrag, { passive: true });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) cancelPageDrag();
+        });
+
+        let mobileResizeTimer = null;
+        const refreshMobileLayout = () => {
+            cancelPageDrag();
+            window.clearTimeout(mobileResizeTimer);
+            mobileResizeTimer = window.setTimeout(() => {
+                // Força nova medição do container pelo modo stretch sem
+                // recriar o PageFlip nem alterar as dimensões-base das páginas.
+                window.dispatchEvent(new Event("resize"));
+            }, 120);
+        };
+
+        window.addEventListener("orientationchange", refreshMobileLayout);
 
         // Show book after successful initialization
         bookElement.style.display = "block";

@@ -1144,6 +1144,210 @@ body.dragging * {
   }
 }
 
+/* Correções isoladas para smartphones. As páginas mantêm 550 x 800;
+   o PageFlip em modo stretch faz apenas o ajuste visual proporcional. */
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100dvh;
+  }
+
+  body {
+    height: 100dvh;
+    overflow: clip;
+    padding: max(8px, env(safe-area-inset-top)) 62px max(58px, env(safe-area-inset-bottom));
+  }
+
+  .album-viewport {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .page {
+    width: 550px;
+    height: 800px;
+    touch-action: pan-y;
+  }
+
+  .deck-card,
+  .deck-sticker,
+  .sticker-img {
+    touch-action: none;
+  }
+
+  .deck-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(42dvh, 390px);
+    border-right: 0;
+    border-top: 1.5px solid rgba(231, 185, 91, 0.4);
+    transform: translateY(100%);
+    z-index: 300;
+  }
+
+  .deck-panel.open {
+    transform: translateY(0);
+  }
+
+  .deck-toggle-btn {
+    top: -46px;
+    right: max(12px, env(safe-area-inset-right));
+    width: auto;
+    min-width: 112px;
+    height: 46px;
+    padding: 6px 12px;
+    border: 1.5px solid rgba(231, 185, 91, 0.5);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    transform: none;
+    flex-direction: row;
+  }
+
+  .deck-content,
+  .deck-grid {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+
+  .deck-header {
+    padding: 10px 14px 8px;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(4, minmax(70px, 1fr));
+    gap: 8px;
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  }
+
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    opacity: 0.85;
+    z-index: 310;
+  }
+
+  .nav-btn-left {
+    left: max(8px, env(safe-area-inset-left));
+  }
+
+  .nav-btn-right {
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .sound-btn {
+    top: max(8px, env(safe-area-inset-top));
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .sticker-viewer-card {
+    max-width: 90vw;
+    max-height: 85dvh;
+  }
+
+  .sticker-viewer-card img {
+    max-width: 90vw;
+    max-height: calc(85dvh - 58px);
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  body {
+    width: 100%;
+    min-height: 100dvh;
+    height: 100dvh;
+    overflow: clip;
+    padding: max(4px, env(safe-area-inset-top)) 58px max(42px, env(safe-area-inset-bottom));
+  }
+
+  .album-viewport {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .page {
+    width: 550px;
+    height: 800px;
+  }
+
+  .deck-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(35dvh, 230px);
+    border-right: 0;
+    border-top: 1.5px solid rgba(231, 185, 91, 0.4);
+    transform: translateY(100%);
+  }
+
+  .deck-panel.open {
+    transform: translateY(0);
+  }
+
+  .deck-toggle-btn {
+    top: -38px;
+    right: max(10px, env(safe-area-inset-right));
+    width: auto;
+    min-width: 104px;
+    height: 38px;
+    padding: 4px 10px;
+    border: 1.5px solid rgba(231, 185, 91, 0.5);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    transform: none;
+    flex-direction: row;
+  }
+
+  .deck-header {
+    padding: 6px 12px;
+  }
+
+  .deck-header-title h2 {
+    font-size: 1.25rem;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(8, minmax(58px, 1fr));
+    gap: 7px;
+    padding: 7px 12px max(7px, env(safe-area-inset-bottom));
+    touch-action: pan-y;
+  }
+
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    opacity: 0.9;
+    z-index: 310;
+  }
+
+  .nav-btn-left {
+    left: max(6px, env(safe-area-inset-left));
+  }
+
+  .nav-btn-right {
+    right: max(6px, env(safe-area-inset-right));
+  }
+
+  .sticker-viewer-card,
+  .sticker-viewer-card img {
+    max-height: 85dvh;
+    max-width: 90vw;
+    object-fit: contain;
+  }
+}
+
 /* ===================================================
    TEMAS E ANIMAÇÕES PARA ASCENSÃO DOS LENDÁRIOS
    =================================================== */
@@ -2942,4 +3146,97 @@ AJUSTE SOLICITADO — CAPA
   color: #0d0a1a;
   box-shadow: 0 0 12px rgba(231, 185, 91, 0.6);
   transform: scale(1.1);
+}
+
+/* Mantido no fim do arquivo para prevalecer sobre os componentes desktop. */
+@media (max-width: 768px) {
+  .deck-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(42dvh, 390px);
+    border-right: 0;
+    border-top: 1.5px solid rgba(231, 185, 91, 0.4);
+    transform: translateY(100%);
+  }
+
+  .deck-panel.open { transform: translateY(0); }
+
+  .deck-toggle-btn {
+    top: -46px;
+    right: max(12px, env(safe-area-inset-right));
+    width: auto;
+    min-width: 112px;
+    height: 46px;
+    padding: 6px 12px;
+    border: 1.5px solid rgba(231, 185, 91, 0.5);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    transform: none;
+    flex-direction: row;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(4, minmax(70px, 1fr));
+    gap: 8px;
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+
+  .sticker-viewer-card {
+    max-width: 90vw;
+    max-height: 85dvh;
+  }
+
+  .sticker-viewer-card img {
+    max-width: 90vw;
+    max-height: calc(85dvh - 58px);
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .deck-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(35dvh, 230px);
+    border-right: 0;
+    border-top: 1.5px solid rgba(231, 185, 91, 0.4);
+    transform: translateY(100%);
+  }
+
+  .deck-panel.open { transform: translateY(0); }
+
+  .deck-toggle-btn {
+    top: -38px;
+    right: max(10px, env(safe-area-inset-right));
+    width: auto;
+    min-width: 104px;
+    height: 38px;
+    padding: 4px 10px;
+    border: 1.5px solid rgba(231, 185, 91, 0.5);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    transform: none;
+    flex-direction: row;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(8, minmax(58px, 1fr));
+    gap: 7px;
+    padding: 7px 12px max(7px, env(safe-area-inset-bottom));
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+
+  .sticker-viewer-card,
+  .sticker-viewer-card img {
+    max-width: 90vw;
+    max-height: 85dvh;
+    object-fit: contain;
+  }
 }
